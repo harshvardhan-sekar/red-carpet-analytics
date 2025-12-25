@@ -15,8 +15,10 @@
 - [Project Overview](#-project-overview)
 - [Key Results](#-key-results)
 - [Data Pipeline](#-data-pipeline)
-- [Oscar Prediction (Segment 1)](#-segment-1-oscar-award-prediction)
-- [Emmy Analysis (Segment 2)](#-segment-2-emmy-award-tv-shows-analysis)
+- [Data Preparation](#-data-preparation)
+- [Machine Learning Methodology](#-machine-learning-methodology)
+- [Segment 1: Oscar Award Prediction](#-segment-1-oscar-award-prediction)
+- [Segment 2: Emmy Award TV Shows Analysis](#-segment-2-emmy-award-tv-shows-analysis)
 - [Project Structure](#-project-structure)
 - [Installation & Usage](#-installation--usage)
 - [Data Sources](#-data-sources)
@@ -30,12 +32,13 @@ This project combines **Machine Learning** and **Business Intelligence** to anal
 
 | Segment | Focus | Tools | Outcome |
 |---------|-------|-------|---------|
-| **Segment 1** | Oscar Award Prediction | XGBoost, Random Forest, Tableau | ~80% accuracy in predicting winners |
+| **Segment 1** | Oscar Award Prediction | XGBoost, Random Forest, Tableau | ~80% recall in predicting winners |
 | **Segment 2** | Emmy Award TV Shows Analysis | Power BI, Tableau Prep | Descriptive insights on winning patterns |
 
 ### Business Problem
 
 The entertainment industry seeks to understand what factors contribute to critical success. This project addresses:
+
 - **Which features significantly correlate with winning an Oscar?**
 - **How do critic scores vs. audience scores influence award outcomes?**
 - **What patterns exist in Emmy-winning TV shows across networks and genres?**
@@ -76,78 +79,301 @@ The entertainment industry seeks to understand what factors contribute to critic
 
 ### Oscar Prediction Pipeline (Segment 1)
 
-```
+```text
 ┌─────────────────────┐     ┌─────────────────────┐
 │   movie_info.csv    │     │ the_oscar_award.csv │
 │  (Rotten Tomatoes)  │     │   (Oscar History)   │
 │   12,413 movies     │     │   10,889 records    │
-└─────────┬───────────┘     └──────────┬──────────┘
-          │                            │
-          └──────────┬─────────────────┘
-                     │
-          ┌──────────▼──────────┐
-          │  Tableau Prep ETL   │
-          │  - Left Outer Join  │
-          │  - Clean & Transform│
-          │  - Remove nulls     │
-          └──────────┬──────────┘
-                     │
-          ┌──────────▼──────────┐
-          │  MasterData_Movies  │
-          │    5,443 records    │
-          └──────────┬──────────┘
-                     │
-          ┌──────────▼──────────┐
-          │  Feature Engineering│
-          │  + Unique_Group_ID  │
-          │  + Category Encoding│
-          └──────────┬──────────┘
-                     │
-     ┌───────────────┼───────────────┐
-     │               │               │
-┌────▼────┐    ┌─────▼─────┐   ┌─────▼─────┐
-│ XGBoost │    │  Random   │   │  Tableau  │
-│  Model  │    │  Forest   │   │  Visuals  │
-└─────────┘    └───────────┘   └───────────┘
+└──────────┬──────────┘     └──────────┬──────────┘
+           │                           │
+           └─────────────┬─────────────┘
+                         │
+              ┌──────────▼──────────┐
+              │  Tableau Prep ETL   │
+              │  • Left Outer Join  │
+              │  • Clean & Transform│
+              │  • Remove nulls     │
+              └──────────┬──────────┘
+                         │
+              ┌──────────▼──────────┐
+              │  MasterData_Movies  │
+              │    5,443 records    │
+              └──────────┬──────────┘
+                         │
+              ┌──────────▼──────────┐
+              │ Feature Engineering │
+              │  • Unique_Group_ID  │
+              │  • Category Encoding│
+              └──────────┬──────────┘
+                         │
+       ┌─────────────────┼─────────────────┐
+       │                 │                 │
+┌──────▼──────┐   ┌──────▼──────┐   ┌──────▼──────┐
+│   XGBoost   │   │   Random    │   │   Tableau   │
+│    Model    │   │   Forest    │   │   Visuals   │
+└─────────────┘   └─────────────┘   └─────────────┘
 ```
 
 ### Emmy Analysis Pipeline (Segment 2)
 
-```
-┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐
-│ IMDb TV Shows    │  │ TV Shows Data.csv│  │The Emmy Awards.csv│
-│   3,000 shows    │  │   2,565 shows    │  │  21,505 records  │
-└────────┬─────────┘  └────────┬─────────┘  └────────┬─────────┘
-         │                     │                     │
-         └─────────────────────┼─────────────────────┘
-                               │
-                    ┌──────────▼──────────┐
-                    │   Tableau Prep ETL  │
-                    │  - Multi-way Join   │
-                    │  - Genre One-Hot    │
-                    │  - Aggregations     │
-                    └──────────┬──────────┘
-                               │
-              ┌────────────────┼────────────────┐
-              │                │                │
-    ┌─────────▼─────────┐ ┌────▼────┐ ┌────────▼────────┐
-    │ model_ready_file  │ │ Result  │ │   Power BI      │
-    │   4,193 records   │ │  Data   │ │   Dashboard     │
-    │ (26 genre cols)   │ │   73    │ │                 │
-    └───────────────────┘ └─────────┘ └─────────────────┘
+```text
+┌──────────────────┐   ┌──────────────────┐   ┌──────────────────┐
+│  IMDb TV Shows   │   │ TV Shows Data.csv│   │The Emmy Awards.csv│
+│   3,000 shows    │   │   2,565 shows    │   │  21,505 records   │
+└────────┬─────────┘   └────────┬─────────┘   └────────┬─────────┘
+         │                      │                      │
+         └──────────────────────┼──────────────────────┘
+                                │
+                     ┌──────────▼──────────┐
+                     │   Tableau Prep ETL  │
+                     │  • Multi-way Join   │
+                     │  • Genre One-Hot    │
+                     │  • Aggregations     │
+                     └──────────┬──────────┘
+                                │
+            ┌───────────────────┼───────────────────┐
+            │                   │                   │
+  ┌─────────▼─────────┐  ┌──────▼──────┐  ┌────────▼────────┐
+  │ model_ready_file  │  │ Result Data │  │    Power BI     │
+  │   4,193 records   │  │  73 records │  │    Dashboard    │
+  │  (26 genre cols)  │  │             │  │                 │
+  └───────────────────┘  └─────────────┘  └─────────────────┘
 ```
 
 ---
 
-## 🎬 Segment 1: Oscar Award Prediction
+## 📊 Data Preparation
 
-### 🔗 [View Interactive Tableau Dashboard](https://public.tableau.com/app/profile/harshvardhan.sekar/viz/CanDataPredicttheOscarsATableauVisualizationofXGBoostInsights/CanDataPredicttheOscarsATableauVisualizationofXGBoostInsights)
+### Phase 1: Raw Data Sources
 
-### Machine Learning Models
+#### Dataset 1: `movie_info.csv` (Rotten Tomatoes)
+
+| Column | Description | Example |
+|--------|-------------|---------|
+| `title` | Movie name | "The Godfather" |
+| `audience_score` | Audience rating (0.0-1.0 scale) | 0.98 |
+| `critic_score` | Critics rating (0.0-1.0 scale) | 0.97 |
+| `url` | Rotten Tomatoes URL | "https://rottentomatoes.com/m/..." |
+| `release_date` | Theatrical release date | "1972-03-24" |
+
+**Records:** 12,413 movies | **Source:** Rotten Tomatoes aggregated reviews
+
+#### Dataset 2: `the_oscar_award.csv` (Academy Awards)
+
+| Column | Description | Example |
+|--------|-------------|---------|
+| `year_film` | Year film was released | 1972 |
+| `year_ceremony` | Year of Oscar ceremony | 1973 |
+| `ceremony` | Ceremony number | 45 |
+| `category` | Award category | "BEST PICTURE" |
+| `name` | Nominee name | "Albert S. Ruddy" |
+| `film` | Film title | "The Godfather" |
+| `winner` | Won the award (True/False) | True |
+
+**Records:** 10,889 nominations | **Time Span:** 1928-2024
+
+---
+
+### Phase 2: ETL Process (Tableau Prep Builder)
+
+#### Step 2.1: Data Ingestion
+
+Both CSV files are loaded into Tableau Prep Builder as input nodes. The tool automatically detects data types and provides data quality indicators.
+
+#### Step 2.2: Join Operation
+
+**Join Type:** Left Outer Join  
+**Join Condition:** `the_oscar_award.film` = `movie_info.title`
+
+```text
+Oscar Data (Left)             Movie Data (Right)
+┌────────────────────┐        ┌────────────────────┐
+│  10,889 records    │   ──►  │  12,413 records    │
+│  (All Oscar noms)  │        │  (RT movie data)   │
+└────────────────────┘        └────────────────────┘
+          │                            │
+          └────────────┬───────────────┘
+                       ▼
+              ┌────────────────┐
+              │ Joined Result  │
+              │ 5,443 records  │
+              └────────────────┘
+```
+
+**Why Left Outer Join?** We want to keep ALL Oscar nominations, even if the movie doesn't have Rotten Tomatoes data. However, records without critic scores are filtered out later since they cannot be used for prediction.
+
+**Data Loss Analysis:**
+
+- Original Oscar records: 10,889
+- After join + null removal: 5,443
+- Records lost: 5,446 (50%) — primarily older films (pre-1970s) without RT data
+
+#### Step 2.3: Column Transformations
+
+**Columns Removed:**
+
+| Column | Reason for Removal |
+|--------|-------------------|
+| `title` | Duplicate of `film` after join |
+| `url` | Not relevant for prediction |
+| `release_date` | `year_film` captures temporal info |
+| `ceremony` | Redundant with `year_ceremony` |
+
+**Columns Renamed (Standardization):**
+
+| Original | Renamed | Reason |
+|----------|---------|--------|
+| `year_film` | `Year_Film` | PascalCase consistency |
+| `year_ceremony` | `Year_Ceremony` | PascalCase consistency |
+| `audience_score` | `Audience_Score` | PascalCase consistency |
+| `critic_score` | `Critic_Score` | PascalCase consistency |
+| `category` | `Category` | PascalCase consistency |
+| `winner` | `Winner` | PascalCase consistency |
+
+#### Step 2.4: Data Cleaning
+
+**Null Value Handling:**
+
+```sql
+Filter Condition: Critic_Score IS NOT NULL
+```
+
+Records with missing critic scores are removed because:
+
+1. Critic score is a key predictor feature
+2. Imputation would introduce bias for prediction
+3. Missing values indicate older films without sufficient review data
+
+**Score Transformation:**
+
+Original scores were on a 0.0 to 1.0 scale. Converted to percentage (0-100) for better interpretability:
+
+```text
+Audience_Score = Audience_Score × 100
+Critic_Score = Critic_Score × 100
+```
+
+**Example:**
+
+- Before: `critic_score = 0.97`
+- After: `Critic_Score = 97`
+
+#### Step 2.5: Output
+
+**File:** `MasterData_Movies.csv`  
+**Records:** 5,443  
+**Columns:** 8
+
+| Column | Data Type | Description |
+|--------|-----------|-------------|
+| `Film` | String | Movie title |
+| `Year_Film` | Integer | Release year |
+| `Year_Ceremony` | Integer | Oscar ceremony year |
+| `Category` | String | Award category (e.g., "BEST PICTURE") |
+| `Name` | String | Nominee name |
+| `Winner` | Boolean | True if won, False if nominated only |
+| `Critic_Score` | Float | RT critic score (0-100) |
+| `Audience_Score` | Float | RT audience score (0-100) |
+
+---
+
+## 🤖 Machine Learning Methodology
+
+### Phase 3: Feature Engineering (Python/Jupyter)
+
+#### Step 3.1: Unique Group ID Creation
+
+To track movies across multiple nominations, a unique identifier was created:
+
+```python
+df['Unique_Group_ID'] = df['Film'] + '_' + df['Year_Film'].astype(str)
+```
+
+**Example:** `"The Godfather_1972"`
+
+This allows aggregation of predictions across categories for the same film.
+
+#### Step 3.2: Category Encoding
+
+The `Category` column contains 70+ unique Oscar categories. Label encoding was applied:
+
+```python
+from sklearn.preprocessing import LabelEncoder
+
+le = LabelEncoder()
+df['Category_Encoded'] = le.fit_transform(df['Category'])
+```
+
+**Sample Encoding:**
+
+| Category | Encoded Value |
+|----------|---------------|
+| ACTOR IN A LEADING ROLE | 0 |
+| ACTOR IN A SUPPORTING ROLE | 1 |
+| ANIMATED FEATURE FILM | 2 |
+| BEST PICTURE | 3 |
+| ... | ... |
+
+#### Step 3.3: Train-Test Split
+
+```python
+from sklearn.model_selection import train_test_split
+
+X = df[['Critic_Score', 'Audience_Score', 'Category_Encoded']]
+y = df['Winner']
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, 
+    test_size=0.2, 
+    random_state=42,
+    stratify=y  # Maintain winner/non-winner ratio
+)
+```
+
+**Split Details:**
+
+- Training set: 4,354 records (80%)
+- Test set: 1,088 records (20%)
+- Stratified to maintain class balance
+
+#### Step 3.4: Feature Scaling
+
+```python
+from sklearn.preprocessing import StandardScaler
+
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+```
+
+**Why Scaling?** While tree-based models (XGBoost, Random Forest) don't require scaling, it was applied for consistency and to enable comparison with other algorithms.
+
+#### Step 3.5: Class Imbalance Handling
+
+**Problem:** Oscar winners are rare (~18% of nominations win)
+
+```text
+Class Distribution:
+├── Winners (1):     ~980 records  (18%)
+└── Non-Winners (0): ~4,462 records (82%)
+```
+
+**Solution:** `scale_pos_weight` parameter in XGBoost
+
+```python
+scale_pos_weight = len(y_train[y_train == 0]) / len(y_train[y_train == 1])
+# Result: ~4.5 (upweights minority class)
+```
+
+---
+
+### Phase 4: Model Training & Evaluation
 
 #### XGBoost Classifier (Final Model)
 
 ```python
+from xgboost import XGBClassifier
+
 model = XGBClassifier(
     random_state=42,
     n_estimators=200,
@@ -156,15 +382,19 @@ model = XGBClassifier(
     scale_pos_weight=len(y_train[y_train == 0]) / len(y_train[y_train == 1])
 )
 
+model.fit(X_train_scaled, y_train)
+
 # Threshold tuning for better recall
-threshold = 0.4
+y_proba = model.predict_proba(X_test_scaled)[:, 1]
+threshold = 0.4  # Lowered from 0.5 to reduce false negatives
 y_pred = (y_proba >= threshold).astype(int)
 ```
 
 **Key Techniques:**
-- **Class Balancing**: `scale_pos_weight` to handle imbalanced data (winners << nominees)
-- **Threshold Tuning**: Lowered decision threshold from 0.5 to 0.4 to reduce false negatives
-- **Feature Scaling**: StandardScaler for consistent feature ranges
+
+- **Class Balancing:** `scale_pos_weight` to handle imbalanced data (winners << nominees)
+- **Threshold Tuning:** Lowered decision threshold from 0.5 to 0.4 to reduce false negatives
+- **Feature Scaling:** StandardScaler for consistent feature ranges
 
 #### Model Comparison
 
@@ -179,6 +409,35 @@ y_pred = (y_proba >= threshold).astype(int)
 
 ---
 
+### Phase 5: Final Output
+
+**File:** `final_movies_data.csv`  
+**Records:** 5,442
+
+| Column | Description |
+|--------|-------------|
+| All original columns | From MasterData_Movies.csv |
+| `Predicted_Winner` | Model prediction (0 or 1) |
+| `Win_Probability` | Probability of winning (0.0-1.0) |
+| `Dataset` | "Train" or "Test" label |
+| `Unique_Group_ID` | Film + Year identifier |
+
+This final dataset powers all Tableau visualizations, enabling analysis of model predictions vs. actual outcomes.
+
+---
+
+### Emmy ETL Details
+
+1. **Genre One-Hot Encoding:** 26 unique genres converted to binary columns
+2. **Network Aggregation:** Win counts, ratings, and votes aggregated by network
+3. **Temporal Analysis:** Episode counts and season trends by year
+
+---
+
+## 🎬 Segment 1: Oscar Award Prediction
+
+### 🔗 [View Interactive Tableau Dashboard](https://public.tableau.com/app/profile/harshvardhan.sekar/viz/CanDataPredicttheOscarsATableauVisualizationofXGBoostInsights/CanDataPredicttheOscarsATableauVisualizationofXGBoostInsights)
+
 ### Tableau Visualizations
 
 #### Exploratory Data Analysis Dashboard
@@ -186,6 +445,7 @@ y_pred = (y_proba >= threshold).astype(int)
 ![EDA Dashboard](images/dashboards/01_eda_dashboard.png)
 
 **Key Insights:**
+
 - Critic scores cluster heavily between **70-95%**, with consistent distributions across training and testing sets
 - Audience scores peak at **80-85%**, following a similar distribution pattern
 - **Best Picture** leads with 352 winners, followed by Film Editing (329) and Directing (300)
@@ -198,6 +458,7 @@ y_pred = (y_proba >= threshold).astype(int)
 ![Model Performance](images/dashboards/02_model_performance.png)
 
 **Key Insights:**
+
 - Year-wise prediction probabilities fluctuate across decades, with peaks in years with critically dominant films (1939: 0.9741)
 - The scatterplot clearly separates **predicted winners (orange)** from **non-winners (blue)**
 - Strong **positive correlation** between critic and audience scores; winners cluster in the upper-right quadrant
@@ -210,6 +471,7 @@ y_pred = (y_proba >= threshold).astype(int)
 ![Prediction Analysis](images/dashboards/03_prediction_analysis.png)
 
 **Key Insights:**
+
 - **The Godfather**, **All the King's Men**, and **Hamlet** emerge with highest prediction probabilities
 - Prediction accuracy varies by category—**Writing** and **Makeup** show strongest performance
 - Acting and Directing categories show higher prediction errors due to their subjective nature
@@ -229,9 +491,9 @@ y_pred = (y_proba >= threshold).astype(int)
 
 ### ETL Process
 
-1. **Genre One-Hot Encoding**: Converted 26 genres into binary columns for ML readiness
-2. **Data Merging**: Joined Emmy nominations with IMDb ratings and TV show metadata
-3. **Output**: `model_ready_file.csv` (4,193 records) and `Result Data.csv` (73 aggregated records)
+1. **Genre One-Hot Encoding:** Converted 26 genres into binary columns for ML readiness
+2. **Data Merging:** Joined Emmy nominations with IMDb ratings and TV show metadata
+3. **Output:** `model_ready_file.csv` (4,193 records) and `Result Data.csv` (73 aggregated records)
 
 ---
 
@@ -242,6 +504,7 @@ y_pred = (y_proba >= threshold).astype(int)
 ![Emmy Genre Analysis](images/dashboards/04_emmy_genre_analysis.png)
 
 **Key Insights:**
+
 - **Comedy** dominates Emmy wins with 600+ wins, followed by **Comedy-Drama** hybrids (~400 wins)
 - Crime-Drama-Mystery and Drama categories show strong Emmy performance
 - The Pareto chart shows **top 10 genres account for 99%** of Emmy wins
@@ -254,6 +517,7 @@ y_pred = (y_proba >= threshold).astype(int)
 ![Emmy Network Analysis](images/dashboards/05_emmy_network_analysis.png)
 
 **Key Insights:**
+
 - **ABC, HBO, NBC, CBS** lead Emmy wins (400+ each)
 - Discovery Channel produces longest-running shows (16.42 avg seasons, 275 episodes)
 - **AMC** has highest average rating (8.82) with 586K average votes
@@ -264,7 +528,7 @@ y_pred = (y_proba >= threshold).astype(int)
 
 ## 📁 Project Structure
 
-```
+```text
 red-carpet-analytics/
 │
 ├── 📄 README.md
@@ -322,7 +586,7 @@ red-carpet-analytics/
 
 ### Prerequisites
 
-```
+```text
 Python 3.8+
 Jupyter Notebook
 Tableau Desktop/Public (for .twbx files)
@@ -350,7 +614,7 @@ jupyter notebook Movie_Dataset_Predictive_Analytics_XGBoost.ipynb
 
 ### Requirements
 
-```
+```text
 pandas>=1.3.0
 numpy>=1.21.0
 scikit-learn>=1.0.0
