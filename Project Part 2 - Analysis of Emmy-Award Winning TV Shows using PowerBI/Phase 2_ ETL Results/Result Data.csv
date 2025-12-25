@@ -1,0 +1,73 @@
+﻿Show ID,Title,Predicted Probability Win,Genres,Rating,Votes,Type
+195,Star Wars: Clone Wars,0.15768173,"Animation, Action, Adventure",7.8,23664,Animation
+203,That's So Raven,0.15768173,"Comedy, Family, Fantasy",6.6,18257,Scripted
+183,Shameless,0.15768173,"Comedy, Drama",8.5,211076,Scripted
+102,Hemlock Grove,0.25653732,"Drama, Horror, Mystery",7.1,37507,Scripted
+70,Elementary,0.25653732,"Crime, Drama, Mystery",7.9,102871,Scripted
+61,Deadwood,0.21046554,"Crime, Drama, History",8.6,96852,Scripted
+240,The Riches,0.15768173,"Comedy, Crime, Drama",7.8,8012,Scripted
+184,Shark,0.15768173,"Crime, Drama, Mystery",7.1,11174,Scripted
+157,Parks and Recreation,0.15768173,Comedy,8.6,223130,Scripted
+67,Downton Abbey,0.21046554,"Drama, Romance",8.7,168268,Scripted
+139,Mom,0.21046554,"Comedy, Drama, Romance",7.2,29855,Scripted
+45,Castle,0.25653732,"Comedy, Crime, Drama",8.1,142862,Scripted
+217,The Exes,0.15768173,Comedy,6.7,5118,Scripted
+196,Steven Universe,0.15768173,"Animation, Action, Adventure",8.2,27156,Animation
+176,Samurai Jack,0.15768173,"Animation, Action, Adventure",8.5,47168,Animation
+33,Boston Legal,0.21046554,"Comedy, Crime, Drama",8.4,43272,Scripted
+63,Derek,0.21046554,"Comedy, Drama",8,28935,Scripted
+178,Saving Grace,0.15768173,"Drama, Fantasy",7.6,4651,Scripted
+141,Moral Orel,0.21046554,"Animation, Comedy, Drama",7.9,5195,Animation
+175,Samantha Who?,0.15768173,"Comedy, Mystery, Romance",7.3,10087,Scripted
+26,Bloodline,0.21046554,"Drama, Thriller",7.9,45390,Scripted
+192,So You Think You Can Dance,0.15768173,"Game-Show, Music, Reality-TV",6.8,9992,Reality
+52,Constantine,0.21046554,"Crime, Drama, Fantasy",7.5,49989,Scripted
+263,UnREAL,0.3711043,Drama,7.8,13700,Scripted
+88,Girl Meets World,0.25653732,"Comedy, Drama, Family",7.1,13239,Scripted
+266,V,0.0404254,"Drama, Sci-Fi, Thriller",6.8,53696,Scripted
+229,The Middle,0.15768173,Comedy,7.6,45993,Scripted
+152,One Day at a Time,0.15768173,Comedy,8.2,13868,Scripted
+257,Treme,0.3711043,"Drama, Music",8.2,13737,Scripted
+7,America's Got Talent,0.15768173,"Family, Game-Show, Music",5.8,9173,Variety
+173,RuPaul's Drag Race,0.15768173,"Game-Show, Reality-TV",8.4,16408,Reality
+214,The Cleveland Show,0.15768173,"Animation, Adventure, Comedy",5.5,38984,Animation
+256,Transparent,0.3711043,"Comedy, Drama",7.7,21510,Scripted
+177,Sanctuary,0.15768173,"Mystery, Thriller",6.8,932,Scripted
+32,Bosch,0.25653732,"Crime, Drama",8.4,49704,Scripted
+274,Web Therapy,0.0404254,Comedy,6.7,4479,Scripted
+166,Reba,0.15768173,"Comedy, Drama",6.5,13678,Scripted
+120,Life,0.21046554,"Crime, Drama, Mystery",8.3,32859,Documentary
+134,Medium,0.21046554,"Crime, Drama, Fantasy",7,26212,Scripted
+124,Lost,0.21046554,"Adventure, Drama, Fantasy",8.3,507182,Scripted
+109,Human Target,0.21046554,"Action, Adventure, Crime",7.7,17434,Scripted
+25,Blindspot,0.25653732,"Action, Crime, Drama",7.4,67630,Scripted
+194,Southland,0.15768173,"Crime, Drama, Thriller",8.4,24905,Scripted
+31,Bones,0.25653732,"Comedy, Crime, Drama",7.8,142888,Scripted
+279,Young Justice,0.0404254,"Animation, Action, Adventure",8.6,32986,Animation
+51,Conan,0.25653732,"Comedy, Music, Talk-Show",8.1,22839,Talk Show
+254,Top of the Lake,0.3711043,"Crime, Drama, Mystery",7.5,32977,Scripted
+251,The Whispers,0.3711043,"Drama, Horror, Mystery",7.2,10410,Scripted
+218,The Flash,0.15768173,"Action, Adventure, Drama",7.6,314534,Scripted
+96,Hannibal,0.21046554,"Crime, Drama, Horror",8.5,234047,Scripted
+17,Avatar: The Last Airbender,0.21046554,"Animation, Action, Adventure",9.3,260893,Animation
+30,Bob's Burgers,0.21046554,"Animation, Comedy",8.1,68033,Animation
+239,The Powerpuff Girls,0.15768173,"Animation, Action, Comedy",3.6,3375,Animation
+238,The Paradise,0.15768173,Drama,7.7,10756,Scripted
+211,The Blacklist,0.15768173,"Crime, Drama, Mystery",8,207764,Scripted
+93,Grey's Anatomy,0.21046554,"Drama, Romance",7.5,261340,Scripted
+179,Scandal,0.15768173,"Drama, Thriller",7.7,68226,Scripted
+170,Robin Hood,0.15768173,"Action, Adventure, Comedy",7.4,16033,Scripted
+80,Fargo,0.25653732,"Crime, Drama, Thriller",8.9,337527,Scripted
+258,True Blood,0.3711043,"Drama, Fantasy, Mystery",7.8,231653,Scripted
+44,Caprica,0.25653732,"Action, Drama, Sci-Fi",7.1,24116,Scripted
+58,Damages,0.25653732,"Crime, Drama, Mystery",8.1,28220,Scripted
+270,Vikings,0.0404254,"Action, Adventure, Drama",8.5,451657,Scripted
+14,Anthony Bourdain: Parts Unknown,0.21046554,"Documentary, Adventure",8.8,5143,Documentary
+246,The Tunnel,0.15768173,"Crime, Drama, Mystery",7.9,7970,Scripted
+247,The Twilight Zone,0.15768173,"Drama, Fantasy, Horror",7.2,5559,Scripted
+278,Workaholics,0.0404254,Comedy,8.1,46945,Scripted
+149,Nip/Tuck,0.15768173,Drama,7.6,53385,Scripted
+144,NCIS: Los Angeles,0.21046554,"Action, Crime, Drama",6.7,49501,Scripted
+174,Rubicon,0.15768173,"Crime, Drama, Mystery",7.9,10215,Scripted
+76,Everwood,0.25653732,Drama,7.4,13202,Scripted
+188,Sleeper Cell,0.15768173,"Crime, Drama, Thriller",8,6026,Scripted

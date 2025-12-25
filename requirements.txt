@@ -1,0 +1,22 @@
+# Oscar & Emmy Award Analysis - Python Dependencies
+# Install with: pip install -r requirements.txt
+
+# Data Processing
+pandas>=1.3.0
+numpy>=1.21.0
+
+# Machine Learning
+scikit-learn>=1.0.0
+xgboost>=1.5.0
+
+# Visualization
+matplotlib>=3.4.0
+seaborn>=0.11.0
+
+# Model Persistence
+joblib>=1.1.0
+
+# Jupyter Notebook Support
+jupyter>=1.0.0
+notebook>=6.4.0
+ipykernel>=6.0.0
